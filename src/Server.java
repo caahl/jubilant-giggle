@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+//test
+
 public class Server {
     private static int portNumber;
     private List<Socket> clients = new ArrayList<>();
