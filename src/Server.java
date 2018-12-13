@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// 112
-
 public class Server {
     private static int portNumber;
     private List<Socket> clients = new ArrayList<>();
@@ -51,10 +49,6 @@ public class Server {
         } else {
             portNumber = Integer.parseInt(args[0]);
         }
-    }
-
-    public static int getPortNumber() {
-        return portNumber;
     }
 
     synchronized List getClients() {
