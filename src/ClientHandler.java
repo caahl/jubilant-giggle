@@ -9,27 +9,26 @@ class ClientHandler extends Thread {
     private Server server;
     private BufferedReader in;
     private PrintWriter out;
-    private String user;
 
 
-    ClientHandler(Socket clientSocket) {
+    ClientHandler(Socket clientSocket, Server server) {
+        this.server = server;
         this.clientSocket = clientSocket;
-
         try {
-            user = clientSocket.getInetAddress().getHostName();
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        start();
     }
-    @Override
+
     public void run() {
         String msg;
         try {
-            while ((msg = in.readLine()) != null) {
-                // msg = in.readLine();
-                System.out.println(user + ": " + msg);
+            while ((msg = in.readLine()) != null && !msg.equalsIgnoreCase("exit")) {
+
+                server.broadcast(clientSocket, msg);
             }
             out.close();
             in.close();
@@ -37,8 +36,7 @@ class ClientHandler extends Thread {
         } catch (IOException ex) {
             System.err.println(ex);
         }
-//        server.killThread(this);
+        server.removeClient(clientSocket);
+
     }
-
-
 }
